@@ -30,3 +30,4 @@ jobs:
         sha256sum: true
         overwrite: true
         pre_command: go mod tidy
+        ldflags:  "-X main.version=${{ github.ref_name }}"
