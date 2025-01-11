@@ -3,8 +3,12 @@ package metrics
 import (
 	"log"
 
-	lxd "github.com/lxc/lxd/client"
-	lxdapi "github.com/lxc/lxd/shared/api"
+	lxd "github.com/lxc/incus/client"
+	"github.com/lxc/incus/shared/api"
+	lxdapi "github.com/lxc/incus/shared/api"
+
+	//lxd "github.com/lxc/lxd/client"
+	//lxdapi "github.com/lxc/lxd/shared/api"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -81,14 +85,18 @@ func (collector *collector) Describe(ch chan<- *prometheus.Desc) {
 
 // Collect fills given channel with metrics data.
 func (collector *collector) Collect(ch chan<- prometheus.Metric) {
-	containerNames, err := collector.server.GetContainerNames()
+	// get container names
+	containerNames, err := collector.server.GetInstanceNames(api.InstanceTypeAny)
+	//containerNames, err := collector.server.GetContainerNames()
 	if err != nil {
 		collector.logger.Printf("Can't query container names: %s", err)
 		return
 	}
 
 	for _, containerName := range containerNames {
-		state, _, err := collector.server.GetContainerState(containerName)
+
+		state, _, err := collector.server.GetInstanceState(containerName)
+		// state, _, err := collector.server.GetContainerState(containerName)
 		if err != nil {
 			collector.logger.Printf(
 				"Can't query container state for `%s`: %s", containerName, err)
@@ -102,7 +110,7 @@ func (collector *collector) Collect(ch chan<- prometheus.Metric) {
 func (collector *collector) collectContainerMetrics(
 	ch chan<- prometheus.Metric,
 	containerName string,
-	state *lxdapi.ContainerState,
+	state *lxdapi.InstanceState,
 ) {
 	ch <- prometheus.MustNewConstMetric(cpuUsageDesc,
 		prometheus.GaugeValue, float64(state.CPU.Usage), containerName)

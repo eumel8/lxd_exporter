@@ -6,10 +6,10 @@ import (
 	"os"
 	"testing"
 
+	mockclient "github.com/eumel8/lxd_exporter/test/mockgen/mock_client"
 	"github.com/golang/mock/gomock"
-	lxd "github.com/lxc/lxd/client"
-	lxdapi "github.com/lxc/lxd/shared/api"
-	mockclient "github.com/nieltg/lxd_exporter/test/mockgen/mock_client"
+	lxd "github.com/lxc/incus/client"
+	lxdapi "github.com/lxc/incus/shared/api"
 	"github.com/nieltg/prom-example-testutil/pkg/testutil"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/stretchr/testify/assert"
