@@ -7,8 +7,6 @@ import (
 	"github.com/lxc/incus/shared/api"
 	lxdapi "github.com/lxc/incus/shared/api"
 
-	//lxd "github.com/lxc/lxd/client"
-	//lxdapi "github.com/lxc/lxd/shared/api"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -71,6 +69,7 @@ var (
 
 // Describe fills given channel with metrics descriptor.
 func (collector *collector) Describe(ch chan<- *prometheus.Desc) {
+
 	ch <- cpuUsageDesc
 	ch <- memUsageDesc
 	ch <- memUsagePeakDesc
@@ -85,6 +84,7 @@ func (collector *collector) Describe(ch chan<- *prometheus.Desc) {
 
 // Collect fills given channel with metrics data.
 func (collector *collector) Collect(ch chan<- prometheus.Metric) {
+
 	// get container names
 	containerNames, err := collector.server.GetInstanceNames(api.InstanceTypeAny)
 	//containerNames, err := collector.server.GetContainerNames()
@@ -112,6 +112,7 @@ func (collector *collector) collectContainerMetrics(
 	containerName string,
 	state *lxdapi.InstanceState,
 ) {
+
 	ch <- prometheus.MustNewConstMetric(cpuUsageDesc,
 		prometheus.GaugeValue, float64(state.CPU.Usage), containerName)
 	ch <- prometheus.MustNewConstMetric(processCountDesc,

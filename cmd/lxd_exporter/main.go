@@ -6,10 +6,9 @@ import (
 	"net/http"
 	"os"
 
-	lxd "github.com/lxc/incus/client"
-	//lxd "github.com/lxc/lxd/client"
 	"github.com/alecthomas/kingpin/v2"
 	"github.com/eumel8/lxd_exporter/pkg/metrics"
+	lxd "github.com/lxc/incus/client"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -31,7 +30,8 @@ func main() {
 	kingpin.Version(version)
 	kingpin.Parse()
 
-	server, err := lxd.ConnectIncusUnix(*socket, nil)
+	socketFile := *socket
+	server, err := lxd.ConnectIncusUnix(socketFile, &lxd.ConnectionArgs{InsecureSkipVerify: true, SkipGetServer: true})
 	if err != nil {
 		logger.Fatalf("Unable to contact LXD server: %s", err)
 		return
