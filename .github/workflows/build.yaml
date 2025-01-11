@@ -25,7 +25,7 @@ jobs:
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
         project_path: ./cmd/lxd_exporter
-        binary_name: lxd_operator
+        binary_name: lxd_exporter
         retry: 10
         sha256sum: true
         overwrite: true

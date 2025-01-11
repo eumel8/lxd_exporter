@@ -19,6 +19,10 @@ var (
 
 	port = kingpin.Flag(
 		"port", "Provide the port to listen on").Default("9472").Int16()
+	listen = kingpin.Flag(
+		"listen", "Provide the interface to listen on").Default("0.0.0.0").String()
+	socket = kingpin.Flag(
+		"socket", "Provide the socket to listen on").Default("/var/snap/lxd/common/lxd/unix.socket").String()
 )
 
 func main() {
@@ -27,7 +31,7 @@ func main() {
 	kingpin.Version(version)
 	kingpin.Parse()
 
-	server, err := lxd.ConnectIncusUnix("/var/snap/lxd/common/lxd/unix.socket", nil)
+	server, err := lxd.ConnectIncusUnix(*socket, nil)
 	if err != nil {
 		logger.Fatalf("Unable to contact LXD server: %s", err)
 		return
@@ -36,7 +40,7 @@ func main() {
 	prometheus.MustRegister(metrics.NewCollector(logger, server))
 	http.Handle("/metrics", promhttp.Handler())
 
-	serveAddress := fmt.Sprintf(":%d", *port)
+	serveAddress := fmt.Sprintf("%s:%d", *listen, *port)
 	log.Print("Server listening on ", serveAddress)
 	log.Fatal(http.ListenAndServe(serveAddress, nil))
 }
