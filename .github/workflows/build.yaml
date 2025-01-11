@@ -18,12 +18,13 @@ jobs:
             goos: windows
     steps:
     - uses: actions/checkout@v2
-    - uses: wangyoucao577/go-release-action@v1.22
+    - uses: wangyoucao577/go-release-action@v1.53
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         goversion: "https://dl.google.com/go/go1.23.4.linux-amd64.tar.gz"
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
+        project_path: ./cmd/lxd_exporter
         binary_name: lxd_operator
         retry: 10
         sha256sum: true
