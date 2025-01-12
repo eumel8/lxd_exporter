@@ -3,7 +3,6 @@
 [![Release CI](https://github.com/eumel8/lxd_exporter/actions/workflows/build.yaml/badge.svg)](https://github.com/eumel8/lxd_exporter/actions/workflows/build.yaml)
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/eumel8/lxd_exporter)](https://goreportcard.com/report/github.com/eumel8/lxd_exporter)
-[![Coverage Status](https://coveralls.io/repos/github/eumel8/lxd_exporter/badge.svg?branch=master)](https://coveralls.io/github/eumel8/lxd_exporter?branch=master)
 
 LXD metrics exporter for Prometheus. Improved version of [viveksing/lxdexporter_golang](https://github.com/viveksing/lxdexporter_golang) and
 [nieltg/lxd_exporter](https://github.com/nieltg/lxd_exporter) and
