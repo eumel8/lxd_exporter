@@ -1,0 +1,9 @@
+name: Coverage
+
+on:
+  push:
+
+jobs:
+  coverage:
+  - name: Coveralls GitHub Action
+    uses: coverallsapp/github-action@v2.3.4
